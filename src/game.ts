@@ -47,14 +47,19 @@ export default class Game extends Phaser.Scene {
 
         const randomizedAssetGroup = this.add.group()
 
-        for (let i = 0; i < 5; i ++) {
+        for (let i = 0; i < 10; i ++) {
             const textures = ['tree', 'rocks']
-            randomizedAssetGroup.add(this.add.image(0, 0, textures[CommonHelpers.getRandomInt(textures.length)]))
+
+            randomizedAssetGroup.add(this.add.image(0, 0, 
+                textures[CommonHelpers
+                .getRandomInt(textures.length)])
+                .setOrigin(0.5, 1)
+                .setScale(Math.random()))
         }
 
-        const line = new Phaser.Geom.Line(0, grass[0].y, 1920, grass[0].y)
+        const line = new Phaser.Geom.Line(0, grass[0].y + 5, 1920, grass[0].y + 5)
 
-        Phaser.Actions.RandomLine(Phaser.Actions.AlignTo(randomizedAssetGroup.getChildren(), Phaser.Display.Align.BOTTOM_CENTER), line)
+        Phaser.Actions.RandomLine(randomizedAssetGroup.getChildren(), line)
 
         this.player = this.physics.add.sprite(100, 800, 'dude');
 
