@@ -10,7 +10,11 @@ export default class Game extends Phaser.Scene {
         this.load.image('earth', 'assets/earth.png');
         this.load.image('grass', 'assets/grass.png');
         this.load.image('tree', 'assets/tree.png');
-        this.load.image('rocks', 'assets/rocks.png')
+        this.load.image('rocks-1', 'assets/rocks-1.png')
+        this.load.image('rocks-1-1', 'assets/rocks-1-1.png')
+        this.load.image('rocks-2', 'assets/rocks-2.png')
+        this.load.image('rocks-3', 'assets/rocks-3.png')
+        this.load.image('rocks-3-1', 'assets/rocks-3-1.png')
         this.load.spritesheet('dude',
             'assets/dude.png',
             {frameWidth: 32, frameHeight: 48});
@@ -45,21 +49,31 @@ export default class Game extends Phaser.Scene {
             grass.push(this.add.image(91.5 + (i * 183) , 975, 'grass'))
         }
 
-        const randomizedAssetGroup = this.add.group()
+        const treeGroup = this.add.group();
+        
+        for (let i = 0; i < CommonHelpers.getRandomInt(6, 3); i++) {
+            treeGroup.add(this.add.image(0, 0, 'tree')
+            .setOrigin(0, 1)
+            .setScale(CommonHelpers.getRandomFloat(1, 1.5)))
+        }
+        
+        console.log(treeGroup.getChildren())
 
-        for (let i = 0; i < 10; i ++) {
-            const textures = ['tree', 'rocks']
+        const randomizedAssetGroup = this.add.group();
 
-            randomizedAssetGroup.add(this.add.image(0, 0, 
-                textures[CommonHelpers
-                .getRandomInt(textures.length)])
-                .setOrigin(0.5, 1)
-                .setScale(Math.random()))
+        for (let i = 0; i < 20; i ++) {
+            const textures = ['rocks-1', 'rocks-1-1', 'rocks-2', 'rocks-3',
+            'rocks-3-1']
+
+            randomizedAssetGroup.add(this.add.image(0, 0, textures[CommonHelpers.getRandomInt(textures.length)])
+                .setScale(Math.random())
+                .setOrigin(0, 1));
         }
 
-        const line = new Phaser.Geom.Line(0, grass[0].y + 5, 1920, grass[0].y + 5)
-
-        Phaser.Actions.RandomLine(randomizedAssetGroup.getChildren(), line)
+        const line = new Phaser.Geom.Line(0, grass[0].y + 5, 1920, grass[0].y + 5);
+    
+        Phaser.Actions.PlaceOnLine(treeGroup.getChildren(), line);
+        Phaser.Actions.RandomLine(randomizedAssetGroup.getChildren(), line);
 
         this.player = this.physics.add.sprite(100, 800, 'dude');
 
