@@ -2,6 +2,7 @@ import { Controller } from "./controller";
 
 export class Keyboard implements Controller {
     controls: Phaser.Types.Input.Keyboard.CursorKeys
+    controlsActive: boolean = true;
 
     constructor(scene: Phaser.Scene) {
         this.controls = scene.input.keyboard.createCursorKeys();

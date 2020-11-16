@@ -89,7 +89,7 @@ export default class Game extends Phaser.Scene {
     }
 
     update() {
-        if (this.controls.controls) {
+        if (this.controls.controlsActive) {
             if (this.controls.left()) {
                 this.player.setVelocityX(-160);
     
