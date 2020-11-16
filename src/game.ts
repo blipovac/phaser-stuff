@@ -1,8 +1,10 @@
 import 'phaser';
 import { CommonHelpers } from "./helpers/common";
+import { ControllerFactory } from './controller/controller-factory';
+import { Controller } from './controller/controller';
 
 export default class Game extends Phaser.Scene {
-    cursors: Phaser.Types.Input.Keyboard.CursorKeys;
+    controls: Controller;
     player: Phaser.Physics.Arcade.Sprite;
 
     preload() {
@@ -21,7 +23,7 @@ export default class Game extends Phaser.Scene {
     }
 
     create() {
-        this.cursors = this.input.keyboard.createCursorKeys();
+        this.controls = new ControllerFactory(this, 'gamepad').getController();
 
         this.add.image(960, 540, 'background')
 
@@ -56,8 +58,6 @@ export default class Game extends Phaser.Scene {
             .setOrigin(0, 1)
             .setScale(CommonHelpers.getRandomFloat(1, 1.5)))
         }
-        
-        console.log(treeGroup.getChildren())
 
         const randomizedAssetGroup = this.add.group();
 
@@ -89,22 +89,25 @@ export default class Game extends Phaser.Scene {
     }
 
     update() {
-        if (this.cursors.left.isDown) {
-            this.player.setVelocityX(-160);
-
-            this.player.anims.play('left', true);
-        } else if (this.cursors.right.isDown) {
-            this.player.setVelocityX(160);
-
-            this.player.anims.play('right', true);
-        } else {
-            this.player.setVelocityX(0);
-
-            this.player.anims.play('turn');
-        }
-
-        if (this.cursors.up.isDown && this.player.body.touching.down) {
-            this.player.setVelocityY(-330);
+        if (this.controls.controls) {
+            if (this.controls.left()) {
+                this.player.setVelocityX(-160);
+    
+                this.player.anims.play('left', true);
+            }
+            else if (this.controls.right()) {
+                this.player.setVelocityX(160);
+    
+                this.player.anims.play('right', true);
+            }
+            else {
+                this.player.setVelocityX(0);
+    
+                this.player.anims.play('turn');
+            }
+            if (this.controls.up() && this.player.body.touching.down) {
+                this.player.setVelocityY(-330);
+            }
         }
     }
 
@@ -139,6 +142,9 @@ const config = {
         mode: Phaser.Scale.FIT,
         width: 1920,
         height: 1080
+    },
+    input: {
+        gamepad: true
     },
     physics: {
         default: 'arcade',
