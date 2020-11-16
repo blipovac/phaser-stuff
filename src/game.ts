@@ -23,7 +23,10 @@ export default class Game extends Phaser.Scene {
     }
 
     create() {
-        this.controls = new ControllerFactory(this, 'gamepad').getController();
+        const urlParams = new URLSearchParams(window.location.search);
+        const input = urlParams.get('input');
+
+        this.controls = new ControllerFactory(this, input).getController();
 
         this.add.image(960, 540, 'background')
 
