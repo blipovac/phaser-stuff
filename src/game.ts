@@ -60,7 +60,10 @@ export default class Game extends Phaser.Scene {
         this.grassGroup = this.add.group();
         this.grassGroup.createMultiple({
             key: 'grass',
-            frameQuantity: 11
+            frameQuantity: 10,
+            setScale: {
+                x: 1.2
+            },
         })
 
         const treeGroup = this.add.group();
@@ -85,7 +88,7 @@ export default class Game extends Phaser.Scene {
         console.log(groundGroup.getFirstAlive().y)
         console.log(this.EARTH_HEIGHT);
 
-        const line = new Phaser.Geom.Line(0, groundGroup.getFirstAlive().y - this.EARTH_HEIGHT / 2, 1920, groundGroup.getFirstAlive().y - this.EARTH_HEIGHT / 2);
+        const line = new Phaser.Geom.Line(50, groundGroup.getFirstAlive().y - this.EARTH_HEIGHT / 2, 2000, groundGroup.getFirstAlive().y - this.EARTH_HEIGHT / 2);
 
         Phaser.Actions.PlaceOnLine(this.grassGroup.getChildren(), line);
         Phaser.Actions.PlaceOnLine(treeGroup.getChildren(), line);
