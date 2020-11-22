@@ -11,7 +11,6 @@ export class ControllerFactory {
         }
 
         if (controllerType === 'gamepad') {
-            console.log('hello');
             this.controller = new GamepadController(scene);
         }
     }

@@ -2,10 +2,16 @@ import 'phaser';
 import { CommonHelpers } from "./helpers/common";
 import { ControllerFactory } from './controller/controller-factory';
 import { Controller } from './controller/controller';
+import { PlatformFactory } from './platforms/platform-factory';
 
 export default class Game extends Phaser.Scene {
     controls: Controller;
     player: Phaser.Physics.Arcade.Sprite;
+
+    platformFactory: PlatformFactory;
+    platformGroup: Phaser.Physics.Arcade.StaticGroup;
+
+    public EARTH_HEIGHT: number;
 
     preload() {
         this.load.image('background', 'assets/background.png');
@@ -20,6 +26,7 @@ export default class Game extends Phaser.Scene {
         this.load.spritesheet('dude',
             'assets/dude.png',
             {frameWidth: 32, frameHeight: 48});
+        this.EARTH_HEIGHT = this.textures.get('earth').getSourceImage().height;
     }
 
     create() {
@@ -80,8 +87,6 @@ export default class Game extends Phaser.Scene {
 
         this.player = this.physics.add.sprite(100, 800, 'dude');
 
-        this.textures.get('grass')
-
         this.player.setBounce(0.2);
         this.player.setCollideWorldBounds(true);
         this.player.setScale(2, 2);
@@ -89,6 +94,19 @@ export default class Game extends Phaser.Scene {
         this.physics.add.collider(this.player, groundGroup);
 
         this.initAnimations();
+
+        this.platformFactory = new PlatformFactory()
+        this.platformGroup = this.physics.add.staticGroup();
+
+        this.time.addEvent({
+            delay: 2000,
+            loop: true,
+            callback: () => { 
+                this.platformFactory.updatePlatforms(this);
+                this.platformGroup.refresh();
+             }
+        })
+
     }
 
     update() {
@@ -153,7 +171,7 @@ const config = {
         default: 'arcade',
         arcade: {
             gravity:  { y: 300 },
-            debug: false
+            debug: true
         }
     },
     scene: Game,
