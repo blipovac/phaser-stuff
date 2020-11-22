@@ -15,7 +15,7 @@ export class PlatformFactory {
             this.newTilesX = CommonHelpers.getRandomInt(1920, 0);
             this.newTilesY = CommonHelpers.getRandomInt(1080 - game.EARTH_HEIGHT - 150, 0);
 
-            game.platformGroup.createMultiple([
+            const createdPlatforms = game.platformGroup.createMultiple([
                 {
                     key: 'earth',
                     frameQuantity: this.newTilesQuantity,
@@ -25,22 +25,29 @@ export class PlatformFactory {
                     setXY: {
                         x: this.newTilesX,
                         y: this.newTilesY,
-                        stepX: 100,
+                        stepX: 200,
                     },
-                },
-                {
-                    key: 'grass',
-                    frameQuantity: this.newTilesQuantity,
-                    setXY: {
-                        x: this.newTilesX,
-                        y: this.newTilesY - 25, // 25 is the downscaled height of the earth tile
-                        stepX: 100,
-                    }
                 }
             ])
 
-            game.platformGroup.refresh();
+            
+            game.grassGroup.createMultiple({
+                key: 'grass',
+                frameQuantity: this.newTilesQuantity,
+                setXY: {
+                    x: this.newTilesX,
+                    y: this.newTilesY - game.EARTH_HEIGHT / 4, // Divided by 4 because we downscaled twofold the earth rte
+                    stepX: 200,
+                },
+                setScale: {
+                    x: 1.05
+                }
+                
+            })
+
+            for (const platform of createdPlatforms) {
+                platform.refreshBody();
+            }
         }    
     }
-
 }
