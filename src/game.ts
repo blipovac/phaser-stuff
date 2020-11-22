@@ -11,7 +11,10 @@ export default class Game extends Phaser.Scene {
     platformFactory: PlatformFactory;
     platformGroup: Phaser.Physics.Arcade.StaticGroup;
 
-    public EARTH_HEIGHT: number;
+    public EARTH_HEIGHT: number = 100;
+    public EARTH_WIDTH: number = 200;
+
+    public grassGroup: Phaser.GameObjects.Group;
 
     preload() {
         this.load.image('background', 'assets/background.png');
@@ -26,7 +29,6 @@ export default class Game extends Phaser.Scene {
         this.load.spritesheet('dude',
             'assets/dude.png',
             {frameWidth: 32, frameHeight: 48});
-        this.EARTH_HEIGHT = this.textures.get('earth').getSourceImage().height;
     }
 
     create() {
@@ -55,11 +57,11 @@ export default class Game extends Phaser.Scene {
 
         groundGroup.refresh();
 
-        const grass: Phaser.GameObjects.Image[] = [];
-
-        for (let i = 0; i < 11; i ++) {
-            grass.push(this.add.image(91.5 + (i * 183) , 975, 'grass'))
-        }
+        this.grassGroup = this.add.group();
+        this.grassGroup.createMultiple({
+            key: 'grass',
+            frameQuantity: 11
+        })
 
         const treeGroup = this.add.group();
         
@@ -80,8 +82,12 @@ export default class Game extends Phaser.Scene {
                 .setOrigin(0, 1));
         }
 
-        const line = new Phaser.Geom.Line(0, grass[0].y + 5, 1920, grass[0].y + 5);
-    
+        console.log(groundGroup.getFirstAlive().y)
+        console.log(this.EARTH_HEIGHT);
+
+        const line = new Phaser.Geom.Line(0, groundGroup.getFirstAlive().y - this.EARTH_HEIGHT / 2, 1920, groundGroup.getFirstAlive().y - this.EARTH_HEIGHT / 2);
+
+        Phaser.Actions.PlaceOnLine(this.grassGroup.getChildren(), line);
         Phaser.Actions.PlaceOnLine(treeGroup.getChildren(), line);
         Phaser.Actions.RandomLine(randomizedAssetGroup.getChildren(), line);
 
@@ -97,6 +103,7 @@ export default class Game extends Phaser.Scene {
 
         this.platformFactory = new PlatformFactory()
         this.platformGroup = this.physics.add.staticGroup();
+        this.physics.add.collider(this.player, this.platformGroup);
 
         this.time.addEvent({
             delay: 2000,
