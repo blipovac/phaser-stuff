@@ -1,0 +1,50 @@
+.wrapper {
+    display: grid;
+}
+
+.firstColumn {
+    grid-column: 1;
+}
+
+.secondColumn {
+    grid-column: 2;
+    display: grid;
+    justify-content: center;
+    justify-items: center;
+}
+
+.thirdColumn {
+    grid-column: 3;
+}
+
+.gameTitle {
+    text-align: center;
+}
+
+.gameMenu {
+    padding: 0;
+    list-style-type: none;
+}
+
+.menuItem {
+    padding: 10px;
+}
+
+.menuButton {
+    height: 50px;
+    width: 200px;
+}
+
+.menuButton:hover {
+    color: greenyellow;
+    background-color: indigo;
+}
+
+.menuButton:onpre {
+    background-color: greenyellow;
+    color: indigo;
+}
+
+.whatever {
+    color: red;
+}
