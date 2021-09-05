@@ -40,11 +40,21 @@
     background-color: indigo;
 }
 
-.menuButton:onpre {
+.menuButton:onpress {
     background-color: greenyellow;
     color: indigo;
 }
 
+.backButton {
+    position: absolute;
+    bottom: 5%;
+    margin-left: -25%;
+}
+
 .whatever {
     color: red;
+}
+
+.md-48 { 
+    font-size: 48px; 
 }
