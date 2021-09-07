@@ -1,5 +1,6 @@
 .wrapper {
     display: grid;
+    background-image: url("../assets/background.png");
 }
 
 .firstColumn {
@@ -18,16 +19,18 @@
 }
 
 .gameTitle {
-    text-align: center;
+    padding-top: 10%;
 }
 
 .gameMenu {
-    padding: 0;
+    padding-top: 100%;
     list-style-type: none;
+    padding-inline-start: 0%;
 }
 
 .menuItem {
-    padding: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .menuButton {
@@ -58,3 +61,31 @@
 .md-48 { 
     font-size: 48px; 
 }
+
+  .scale-up-center {
+	-webkit-animation: scale-up-center 5s cubic-bezier(0.390, 0.575, 0.565, 1.000) infinite both;
+	        animation: scale-up-center 5s cubic-bezier(0.390, 0.575, 0.565, 1.000) infinite both;
+}
+
+ @-webkit-keyframes scale-up-center {
+    0% {
+      -webkit-transform: scale(0.5);
+              transform: scale(0.5);
+    }
+    100% {
+      -webkit-transform: scale(1);
+              transform: scale(1);
+    }
+  }
+  @keyframes scale-up-center {
+    0% {
+      -webkit-transform: scale(0.5);
+              transform: scale(0.5);
+    }
+    100% {
+      -webkit-transform: scale(1);
+              transform: scale(1);
+    }
+  }
+  
+  
