@@ -5,6 +5,7 @@ import { Controller } from './controller/controller';
 import { PlatformFactory } from './platforms/platform-factory';
 import { Physics } from 'phaser';
 import { BombFactory } from './bombs/bomb-factory';
+import { StarsFactory } from './stars/stars-factory';
 
 export default class Game extends Phaser.Scene {
     controls: Controller;
@@ -19,12 +20,17 @@ export default class Game extends Phaser.Scene {
     public grassGroup: Phaser.GameObjects.Group;
     public platformGrassGroup: Phaser.GameObjects.Group;
 
-    public bombGroup: Physics.Arcade.Group;ž
+    public bombGroup: Physics.Arcade.Group;
 
     bombFactory: BombFactory;
     gameOver: boolean;
+    starsGroup: Physics.Arcade.Group;
+    starsFactory: StarsFactory;
+    scoreText: Phaser.GameObjects.Text;
+    score: number = 0;
 
     preload() {
+        this.load.image('star', 'assets/star.png');
         this.load.image('bomb', 'assets/bomb.png');
         this.load.image('background', 'assets/background.png');
         this.load.image('earth', 'assets/earth.png');
@@ -37,7 +43,7 @@ export default class Game extends Phaser.Scene {
         this.load.image('rocks-3-1', 'assets/rocks-3-1.png')
         this.load.spritesheet('dude',
             'assets/dude.png',
-            {frameWidth: 32, frameHeight: 48});
+            {frameWidth: 32, frameHeight: 42});
     }
 
     create() {
@@ -79,6 +85,8 @@ export default class Game extends Phaser.Scene {
 
         this.bombGroup = this.physics.add.group();
 
+        this.starsFactory = new StarsFactory();
+
         const treeGroup = this.add.group();
         
         for (let i = 0; i < CommonHelpers.getRandomInt(6, 3); i++) {
@@ -107,6 +115,8 @@ export default class Game extends Phaser.Scene {
         Phaser.Actions.PlaceOnLine(treeGroup.getChildren(), line);
         Phaser.Actions.RandomLine(randomizedAssetGroup.getChildren(), line);
 
+        this.starsGroup = this.physics.add.group();
+    
         this.player = this.physics.add.sprite(100, 800, 'dude');
 
         this.player.setBounce(0.2);
@@ -125,7 +135,11 @@ export default class Game extends Phaser.Scene {
         this.physics.add.collider(this.bombGroup, groundGroup);
         this.physics.add.collider(this.bombGroup, this.platformGroup);
 
-        this.physics.add.collider(this.player, this.bombGroup, hitBomb, null, this);
+        this.physics.add.collider(this.player, this.bombGroup, this.hitBomb, null, this);
+
+        this.physics.add.collider(this.starsGroup, groundGroup);
+        this.physics.add.collider(this.starsGroup, this.platformGroup);
+        this.physics.add.overlap(this.player, this.starsGroup, this.collectStar, null, this);
 
         this.time.addEvent({
             delay: 2000,
@@ -137,19 +151,28 @@ export default class Game extends Phaser.Scene {
         })
 
         this.time.addEvent({
-            delay: 5000,
+            delay: 7500,
             loop: true,
             callback: () => { 
                 this.bombFactory.spawnBomb(this);
              }
         })
 
+        this.time.addEvent({
+            delay: 2500,
+            loop: true,
+            callback: () => { 
+                this.starsFactory.spawnStar(this);
+             }
+        })
+
+        this.scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
     }
 
     update() {
         if (this.gameOver === true) {
             this.time.removeAllEvents();
-            
+
             return
         }
 
@@ -196,6 +219,24 @@ export default class Game extends Phaser.Scene {
             repeat: -1
         });
     }
+
+    collectStar(player, star) {
+        star.disableBody(true, true);
+    
+        //  Add and update the score
+        this.score += 10;
+        this.scoreText.setText('Score: ' + this.score);
+    }
+
+    hitBomb() {
+        this.physics.pause();
+    
+        this.player.setTint(0xff0000);
+    
+        this.player.anims.play('turn');
+    
+        this.gameOver = true;
+    }
 }
 
 const config = {
@@ -214,7 +255,7 @@ const config = {
         default: 'arcade',
         arcade: {
             gravity:  { y: 300 },
-            debug: true
+            debug: false
         }
     },
     scene: Game,
@@ -222,13 +263,4 @@ const config = {
 
 const game = new Phaser.Game(config);
 
-function hitBomb() {
-    this.physics.pause();
-
-    this.player.setTint(0xff0000);
-
-    this.player.anims.play('turn');
-
-    this.gameOver = true;
-}
 

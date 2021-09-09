@@ -46,7 +46,7 @@ export class PlatformFactory {
 
         this.newTilesQuantity = CommonHelpers.getRandomInt(3, 1);
         this.newTilesX = CommonHelpers.getRandomInt(1920, 0);
-        this.newTilesY = 1080 - game.EARTH_HEIGHT - (150 * this.platformRow);
+        this.newTilesY = 1080 - game.EARTH_HEIGHT - (135 * this.platformRow);
 
         // increment platform row after placing a new platform so new platform is generated one row above
         this.platformRow += 1;
