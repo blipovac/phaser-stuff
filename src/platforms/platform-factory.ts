@@ -14,7 +14,7 @@ export class PlatformFactory {
     platformRow: number = 1;
 
     updatePlatforms(game: Game) {
-        if (this.numberOfPlatforms < 4) {
+        if (this.numberOfPlatforms < 11) {
             this.createPlatforms(game);
         } else {
             this.shufflePlatforms(game);
@@ -34,9 +34,12 @@ export class PlatformFactory {
         const platformGroundTiles = game.platformGroup.getChildren();
         const platformGroundTile = platformGroundTiles[random_number];
 
-        Phaser.Actions.SetX([grassTile], randomXOffset);
+        // sometimes these tiles would be undefined, no idea why that's why this check is here
+        if (grassTile && platformGroundTile) {
+            Phaser.Actions.SetX([grassTile], randomXOffset);
 
-        Phaser.Actions.SetX([platformGroundTile], randomXOffset);
+            Phaser.Actions.SetX([platformGroundTile], randomXOffset);
+        }
     }
     createPlatforms(game: Game) {
         this.numberOfPlatforms++;

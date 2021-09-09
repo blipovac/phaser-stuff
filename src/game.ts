@@ -3,6 +3,8 @@ import { CommonHelpers } from "./helpers/common";
 import { ControllerFactory } from './controller/controller-factory';
 import { Controller } from './controller/controller';
 import { PlatformFactory } from './platforms/platform-factory';
+import { Physics } from 'phaser';
+import { BombFactory } from './bombs/bomb-factory';
 
 export default class Game extends Phaser.Scene {
     controls: Controller;
@@ -17,7 +19,13 @@ export default class Game extends Phaser.Scene {
     public grassGroup: Phaser.GameObjects.Group;
     public platformGrassGroup: Phaser.GameObjects.Group;
 
+    public bombGroup: Physics.Arcade.Group;ž
+
+    bombFactory: BombFactory;
+    gameOver: boolean;
+
     preload() {
+        this.load.image('bomb', 'assets/bomb.png');
         this.load.image('background', 'assets/background.png');
         this.load.image('earth', 'assets/earth.png');
         this.load.image('grass', 'assets/grass.png');
@@ -41,6 +49,8 @@ export default class Game extends Phaser.Scene {
         this.add.image(960, 540, 'background')
 
         const groundGroup = this.physics.add.staticGroup();
+
+        this.bombFactory = new BombFactory();
 
         groundGroup.createMultiple([
             {
@@ -66,6 +76,8 @@ export default class Game extends Phaser.Scene {
                 x: 1.2
             },
         })
+
+        this.bombGroup = this.physics.add.group();
 
         const treeGroup = this.add.group();
         
@@ -110,6 +122,11 @@ export default class Game extends Phaser.Scene {
         this.platformGrassGroup = this.add.group();
         this.physics.add.collider(this.player, this.platformGroup);
 
+        this.physics.add.collider(this.bombGroup, groundGroup);
+        this.physics.add.collider(this.bombGroup, this.platformGroup);
+
+        this.physics.add.collider(this.player, this.bombGroup, hitBomb, null, this);
+
         this.time.addEvent({
             delay: 2000,
             loop: true,
@@ -119,9 +136,23 @@ export default class Game extends Phaser.Scene {
              }
         })
 
+        this.time.addEvent({
+            delay: 5000,
+            loop: true,
+            callback: () => { 
+                this.bombFactory.spawnBomb(this);
+             }
+        })
+
     }
 
     update() {
+        if (this.gameOver === true) {
+            this.time.removeAllEvents();
+            
+            return
+        }
+
         if (this.controls.controlsActive) {
             if (this.controls.left()) {
                 this.player.setVelocityX(-160);
@@ -190,3 +221,14 @@ const config = {
 };
 
 const game = new Phaser.Game(config);
+
+function hitBomb() {
+    this.physics.pause();
+
+    this.player.setTint(0xff0000);
+
+    this.player.anims.play('turn');
+
+    this.gameOver = true;
+}
+
