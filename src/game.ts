@@ -15,6 +15,7 @@ export default class Game extends Phaser.Scene {
     public EARTH_WIDTH: number = 200;
 
     public grassGroup: Phaser.GameObjects.Group;
+    public platformGrassGroup: Phaser.GameObjects.Group;
 
     preload() {
         this.load.image('background', 'assets/background.png');
@@ -106,6 +107,7 @@ export default class Game extends Phaser.Scene {
 
         this.platformFactory = new PlatformFactory()
         this.platformGroup = this.physics.add.staticGroup();
+        this.platformGrassGroup = this.add.group();
         this.physics.add.collider(this.player, this.platformGroup);
 
         this.time.addEvent({
