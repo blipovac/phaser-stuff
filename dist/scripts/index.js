@@ -1,23 +1,16 @@
 window.addEventListener("load", function () {
-    const startGameButton = document.getElementById("startGameButton");
-    startGameButton.addEventListener("click", goToGameScreen);
+    const startGameButton = document.getElementById("loginButton");
+    startGameButton.addEventListener("click", goToLoginScreen);
 
-    const highScoresButton = document.getElementById("highScoresButton");
-    highScoresButton.addEventListener("click", goToHighScores);
-
-    const settingsButton = document.getElementById("settingsButton");
-    settingsButton.addEventListener("click", goToHighScores);
+    const highScoresButton = document.getElementById("registerButton");
+    highScoresButton.addEventListener("click", goToRegisterScreen);
 })
 
 // Listener handlers
-function goToGameScreen() {
-    window.location.href = "detect-input.html";
+function goToLoginScreen() {
+    window.location.href = "login.html";
 }
 
-function goToHighScores() {
-    window.location.href = "high-scores.html";
-}
-
-function goToSettings() {
-    window.location.href = "settings.html";
+function goToRegisterScreen() {
+    window.location.href = "register.html";
 }
