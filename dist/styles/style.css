@@ -1,6 +1,7 @@
 .wrapper {
     display: grid;
     background-image: url("../assets/background.png");
+    background-repeat: no-repeat;
 }
 
 .firstColumn {
@@ -12,6 +13,7 @@
     display: grid;
     justify-content: center;
     justify-items: center;
+    text-justify: auto;
 }
 
 .thirdColumn {
@@ -34,23 +36,29 @@
 }
 
 .menuButton {
-    height: 56px;
-    width: 208px;
+    height: 50px;
+    width: 200px;
 }
 
 .menuLabel {
     height: 25px;
-    width: 208px;
+    width: 200px;
+    text-align: center;
+    padding-top: 5%;
 }
 
 .menuInput {
     height: 50px;
     width: 200px;
+    padding: 0;
+    border-style: none;
+    box-shadow: inset;
 }
 
 .menuButton:hover {
     color: greenyellow;
     background-color: indigo;
+    box-shadow: inset;
 }
 
 .menuButton:onpress {
