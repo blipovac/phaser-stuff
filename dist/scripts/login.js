@@ -1,4 +1,6 @@
-req = new XMLHttpRequest();
+import { BASE_API_URL } from "./config.js";
+
+const req = new XMLHttpRequest();
 
 window.addEventListener("load", function () {
     const loginButton = document.getElementById("loginButton");
@@ -23,7 +25,7 @@ function login() {
 
 function sendLoginRequest({ login, password }) {
     req.addEventListener("load", reqListener);
-    req.open("POST", "https://bomb-dash-api.ey.r.appspot.com/auth/login")
+    req.open("POST", `${ BASE_API_URL }/auth/login`)
     req.setRequestHeader("Content-Type", "application/json")
     req.responseType = "json";
     req.send(JSON.stringify(

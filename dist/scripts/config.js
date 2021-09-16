@@ -1,0 +1,1 @@
+export const BASE_API_URL = "https://bomb-dash-api.ey.r.appspot.com"
