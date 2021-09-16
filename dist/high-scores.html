@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <script src="scripts/high-scores.js"></script>
+  <script type="module" src="scripts/high-scores.js"></script>
   <link rel="stylesheet" href="styles/style.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
@@ -13,9 +13,17 @@
   </div>
 
   <div class="secondColumn">
-    <h1>We're gonna show some high scores here</h1>
+    <h1>High Scores</h1>
 
-    <ol id="score-list"></ol>
+    <table id="score-list">
+      <tr>
+        <th>Rank</th>
+        <th>Player</th>
+        <th>Score</th>
+        <th>Date</th>
+      </tr>
+    </table>
+
     <div class="mdc-touch-target-wrapper">
       <button class="mdc-icon-button mdc-icon-button--touch material-icons backButton">
         <div class="mdc-icon-button__ripple"></div>
