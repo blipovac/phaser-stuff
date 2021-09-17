@@ -10,7 +10,7 @@ export function getJwtFromCookie () {
 
         return token
     } catch (e) {
-        console.error("error fetching token")
-        return token
+        window.alert("You are not logged in!")
+        window.location.href = "login.html"
     }
 }

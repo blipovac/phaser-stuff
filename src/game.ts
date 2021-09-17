@@ -29,6 +29,8 @@ export default class Game extends Phaser.Scene {
     scoreText: Phaser.GameObjects.Text;
     score: number = 0;
 
+    token: String;
+
     preload() {
         this.load.image('star', 'assets/star.png');
         this.load.image('bomb', 'assets/bomb.png');
@@ -47,6 +49,7 @@ export default class Game extends Phaser.Scene {
     }
 
     create() {
+        this.token = this.getTokenFromCookie()
         const urlParams = new URLSearchParams(window.location.search);
         const input = urlParams.get('input');
 
@@ -236,6 +239,21 @@ export default class Game extends Phaser.Scene {
         this.player.anims.play('turn');
     
         this.gameOver = true;
+    }
+
+    getTokenFromCookie() {
+        let token = ''
+        try {
+            token = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('token='))
+            .split('=')[1];
+    
+            return token
+        } catch (e) {
+            window.alert("You are not logged in!")
+            window.location.href = "login.html"
+        }
     }
 }
 

@@ -1,3 +1,7 @@
+import { getJwtFromCookie } from "./config.js";
+
+const cookie = getJwtFromCookie();
+
 window.addEventListener("load", function () {
     const startGameButton = document.getElementById("startGameButton");
     startGameButton.addEventListener("click", goToGameScreen);
