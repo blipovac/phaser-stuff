@@ -1,4 +1,24 @@
-import { BASE_API_URL } from "./config.js"
+import { BASE_API_URL, getJwtFromCookie } from "./config.js"
+
+const urlParams = new URLSearchParams(window.location.search);
+const query = urlParams.get('mine');
+
+let req = new XMLHttpRequest();
+req.addEventListener("load", reqListener);
+
+
+if (query === "true") {
+    req.open("GET", `${ BASE_API_URL }/my-scores`);
+
+    const token = getJwtFromCookie();
+
+    req.setRequestHeader("authorization", `Bearer ${token}`)
+} else {
+    req.open("GET", `${ BASE_API_URL }/high-scores`);
+}
+
+req.responseType = "json";
+req.send();
 
 function reqListener () {
     req.response.forEach((element, index) => {
@@ -28,9 +48,3 @@ function reqListener () {
         document.getElementById("score-list").appendChild(tableRow);
     });
 }
-
-let req = new XMLHttpRequest();
-req.addEventListener("load", reqListener);
-req.open("GET", `${ BASE_API_URL }/high-scores`)
-req.responseType = "json";
-req.send();

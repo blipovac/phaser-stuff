@@ -6,7 +6,7 @@ window.addEventListener("load", function () {
     highScoresButton.addEventListener("click", goToHighScores);
 
     const settingsButton = document.getElementById("myScoresButton");
-    settingsButton.addEventListener("click", goToHighScores);
+    settingsButton.addEventListener("click", goToMyScores);
 })
 
 // Listener handlers
@@ -18,6 +18,6 @@ function goToHighScores() {
     window.location.href = "high-scores.html";
 }
 
-function goToSettings() {
-    window.location.href = "my-scores.html";
+function goToMyScores() {
+    window.location.href = "high-scores.html?mine=true";
 }
