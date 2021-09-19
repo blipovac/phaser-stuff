@@ -37,7 +37,12 @@ function sendLoginRequest({ login, password }) {
 }
 
 function reqListener() {
-    document.cookie = `token=${ req.response.token.token }; Secure`;
+    if (req.status === 200) {
+        document.cookie = `token=${ req.response.token.token }; Secure`;
 
-    window.location.href = "game-menu.html";
+        window.location.href = "game-menu.html";
+    } else {
+        alert("Login was unsuccessful")
+    }
+    
 }
