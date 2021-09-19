@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="module" src="scripts/register.js"></script>
+        <link rel="stylesheet" href="styles/style.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        rel="stylesheet">
+    </head>
+    <body class="wrapper">
+        <div class="firstColumn">
+        </div>
+        <div class="secondColumn">
+            <img class="scale-up-center gameTitle" src="assets/bomb-dash-logo.png">
+            <ul class="gameMenu" style="padding-top: 15%;">
+                <li class="menuLabel">
+                    <div class="menuLabel">Email:</div>
+                </li>
+                <li class="menuItem">
+                    <input type="text" id="email" required minlength="4" class="menuInput">
+                </li>
+
+                <li class="menuLabel">
+                    <div class="menuLabel">Confirm Email:</div>
+                </li>
+                <li class="menuItem">
+                    <input type="text" id="emailConfirmation" required minlength="4" class="menuInput">
+                </li>
+
+                <li class="menuLabel">
+                    <div class="menuLabel">Username:</div>
+                </li>
+                <li class="menuItem">
+                    <input type="text" id="username" required minlength="4" class="menuInput">
+                </li>
+
+                <li class="menuLabel">
+                    <div class="menuLabel">Password:</div>
+                </li>
+                <li class="menuItem">
+                    <input type="password" id="password" required class="menuInput">
+                </li> 
+
+                <li class="menuLabel">
+                    <div class="menuLabel">Confirm Password:</div>
+                </li>
+                <li class="menuItem">
+                    <input type="password" id="passwordConfirmation" required class="menuInput">
+                </li> 
+
+                <li class="menuButton">
+                    <button class="menuButton" id="registerButton">Register</button>
+                </li>
+            </ul>
+        </div>
+        <div class="thirdColumn">
+        </div>
+    </body>
+</html>
