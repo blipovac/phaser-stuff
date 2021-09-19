@@ -30,6 +30,7 @@ export default class Game extends Phaser.Scene {
     score: number = 0;
 
     token: String;
+    BASE_API_URL: String = "http://localhost:3333";
 
     preload() {
         this.load.image('star', 'assets/star.png');
@@ -239,6 +240,18 @@ export default class Game extends Phaser.Scene {
         this.player.anims.play('turn');
     
         this.gameOver = true;
+
+        let req = new XMLHttpRequest();
+        req.addEventListener("load", this.goToGameMenu);
+        req.open("POST", `${ this.BASE_API_URL }/high-scores`);
+        req.setRequestHeader("authorization", `Bearer ${this.token}`)
+        req.setRequestHeader("Content-Type", "application/json")
+        req.responseType = "json";
+        req.send(JSON.stringify(
+            {
+                score: this.score
+            }
+        ));
     }
 
     getTokenFromCookie() {
@@ -254,6 +267,10 @@ export default class Game extends Phaser.Scene {
             window.alert("You are not logged in!")
             window.location.href = "login.html"
         }
+    }
+
+    goToGameMenu() {
+        window.location.href = "game-menu.html"
     }
 }
 
