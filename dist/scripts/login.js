@@ -5,6 +5,11 @@ const req = new XMLHttpRequest();
 window.addEventListener("load", function () {
     const loginButton = document.getElementById("loginButton");
     loginButton.addEventListener("click", login)
+
+    const backButton = document.getElementById("backButton");
+    backButton.addEventListener("click", function () {
+        window.location.href = "index.html"
+    })
 })
 
 function login() {

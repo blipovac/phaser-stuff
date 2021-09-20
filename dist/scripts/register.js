@@ -6,6 +6,11 @@ window.addEventListener("load", function () {
     const registerButton = document.getElementById("registerButton");
     registerButton.addEventListener("click", register);
 
+    const backButton = document.getElementById("backButton");
+    backButton.addEventListener("click", function () {
+        window.location.href = "index.html"
+    })
+
     req.addEventListener("load", reqListener);
 })
 

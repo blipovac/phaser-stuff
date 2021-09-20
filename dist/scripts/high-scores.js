@@ -1,5 +1,10 @@
 import { BASE_API_URL, getJwtFromCookie } from "./config.js"
 
+const backButton = document.getElementById("backButton");
+backButton.addEventListener("click", function () {
+  window.location.href = "game-menu.html"
+})
+
 const urlParams = new URLSearchParams(window.location.search);
 const query = urlParams.get('mine');
 

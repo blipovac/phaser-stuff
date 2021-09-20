@@ -1,4 +1,4 @@
-export const BASE_API_URL = "http://127.0.0.1:3333"
+export const BASE_API_URL = "https://bomb-dash-api.ey.r.appspot.com"
 
 export function getJwtFromCookie () {
     let token = ''

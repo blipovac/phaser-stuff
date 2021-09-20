@@ -30,7 +30,7 @@ export default class Game extends Phaser.Scene {
     score: number = 0;
 
     token: String;
-    BASE_API_URL: String = "http://localhost:3333";
+    BASE_API_URL: String = "https://bomb-dash-api.ey.r.appspot.com";
 
     preload() {
         this.load.image('star', 'assets/star.png');

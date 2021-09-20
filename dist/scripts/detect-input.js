@@ -19,3 +19,8 @@ window.addEventListener("gamepadconnected", function(e) {
     }
   }, 100)
 });
+
+const backButton = document.getElementById("backButton");
+backButton.addEventListener("click", function () {
+  window.location.href = "game-menu.html"
+})
