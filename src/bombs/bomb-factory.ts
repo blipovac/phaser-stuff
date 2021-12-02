@@ -11,5 +11,6 @@ export class BombFactory {
         bomb.setCollideWorldBounds(true);
         bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
         bomb.allowGravity = false;
+        
     }
 }
